@@ -1,27 +1,32 @@
 from threading import Thread
 import pandas as pd
 import websocket
+import requests
 import logging
 import queue
 import time
 import json
 
 websocket_url = 'wss://api.hitbtc.com/api/2/ws'
+sync_api_url = 'https://api.hitbtc.com'
 logger = logging.getLogger('HITBTC')
 logger.setLevel(logging.INFO)
 
 
 class HitBTC(Thread):
-    def __init__(self, key, secret, max_size=25):
+    def __init__(self, key, secret, max_size=25, start=True):
         self.key = key
         self.secret = secret
+        self.sync_session = requests.Session()
+        self.sync_session.auth = (key, secret)
         self.ws = websocket.WebSocketApp(websocket_url, on_open=self.on_open, on_message=self.on_message, on_error=self.on_error, on_close=self.on_close)
         self.max_size = max_size
         self.messages = {}
         self.connected = False
         super(HitBTC, self).__init__(target=self.ws.run_forever, args=[])
-        self.start()
-        self.auth()
+        if start:
+            self.start()
+            self.auth()
         
     def start(self):
         super(HitBTC, self).start()
