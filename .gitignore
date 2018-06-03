@@ -2,8 +2,11 @@
 __pycache__/
 *.py[cod]
 *$py.class
+key
+secret
+dask-worker-space/*
 
-
+stats/*
 *.html
 # C extensions
 *.so
