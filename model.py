@@ -36,5 +36,5 @@ class LSTM(torch.nn.Module):
     
 def get_model(file='model202.pt'):
     lstm = LSTM(NUM_CLASSES, INPUT_SIZE, HIDDEN_SIZE, NUM_LAYERS)
-    lstm.load_state_dict(torch.load('model5.pt', map_location=lambda a, b: a))
+    lstm.load_state_dict(torch.load('model10.pt', map_location=lambda a, b: a))
     return lstm
